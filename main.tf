@@ -1,6 +1,7 @@
 locals {
+
     // Find the greatest depth through the maps
-    greatest_depth = max(concat([
+    greatest_depth = try(max(concat([
         for mod in local.modules:
             concat([
                 for i in range(0, length(var.maps)):
@@ -9,7 +10,7 @@ locals {
                         length(f["path"])
                     ]
             ]...)
-    ]...)...)
+    ]...)...),1)
 
     // For each input map, convert it to a single-level map with a unique key for every nested value
     fields_json = [
